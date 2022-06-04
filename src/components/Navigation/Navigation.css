@@ -12,10 +12,14 @@
     line-height: 18px;
     color: #000000;
     text-transform: uppercase;
-    margin: 20px 16px 0 0;
+    margin: 0 16px 0 0;
     padding-bottom: 10px;
     border: none;
     background-color: transparent;
+}
+.navigation__button:hover{
+    cursor: pointer;
+    background-color: rgb(204, 204, 204);
 }
 .navigation__button:last-child{
     margin-right: 0;

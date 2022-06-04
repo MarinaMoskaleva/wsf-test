@@ -3,11 +3,11 @@ import './App.css';
 import Search from '../Search/Search';
 import api from '../../utils/Api'
 import { KELVIN } from '../../utils/constants';
-import { getCountryName } from '../../utils/iso3166-1alpha-2';
 import ShowWeather from '../ShowWeather/ShowWeather';
 import Navigation from '../Navigation/Navigation';
 import ShowWeekWeather from '../ShowWeekWeather/ShowWeekWeather';
-import Preloader from '../Preloader/Preloader'
+import Preloader from '../Preloader/Preloader';
+import Error from '../Error/Error';
 
 function App() {
   const [weatherData, setWeatherData] = useState({});
@@ -16,6 +16,7 @@ function App() {
   const [isCurrentActive, setCurrentActive] = useState(true);
   const [loading, setLoading] = useState(false);
   const [dataGet, setDataGet] = useState(false);
+  const [error, setError] = useState(false);
 
   function definePeriod(isCurActive){
     setCurrentActive(isCurActive);
@@ -39,7 +40,7 @@ function App() {
     return weekData;
   }
   function getCity(nameData){
-    console.log(nameData);
+    setError(false);
     setNameCity(nameData);
   }
   useEffect(() => {
@@ -47,18 +48,20 @@ function App() {
       setLoading(true);
       Promise.all([api.getCoordByCityName(nameCity), api.getWeekWeather(nameCity)])
       .then(([data, weekData])=>{
-        console.log('data', data);
+        const fullCountryName = new Intl.DisplayNames("en", {type: "region"}).of(data[0].country);
         setWeatherData({
           city: data[0].name, 
-          country: getCountryName(data[0].country),
+          country: fullCountryName,
           icon: `http://openweathermap.org/img/wn/${weekData.daily[0].weather[0].icon}@2x.png`,
           temperature: Math.round((weekData.daily[0].temp.day - KELVIN)*10)/10,
           weather: weekData.daily[0].weather[0].main
         });
-        setWeekWeatherData(getWeekWeatherData(data[0].name, getCountryName(data[0].country), weekData.daily));
+        setWeekWeatherData(getWeekWeatherData(data[0].name, fullCountryName, weekData.daily));
         setLoading(false);
       })
       .catch((err)=>{
+        setError(true);
+        setLoading(true);
         console.log(err);
       });
       setNameCity('');
@@ -75,7 +78,8 @@ function App() {
     <div className="root">
         <Search onClick={getCity}/>
         <Navigation togglePeriod={definePeriod}/>
-        {loading && <Preloader />}
+        {error && <Error />}
+        {loading && !error && <Preloader />}
         {isCurrentActive && dataGet && <ShowWeather weatherData={weatherData} />}
         {!isCurrentActive && dataGet && <ShowWeekWeather weekWeatherData={weekWeatherData} />}
     </div>
