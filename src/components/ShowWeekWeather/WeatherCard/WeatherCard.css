@@ -4,8 +4,9 @@
     align-items: center;
 }
 .card__ico{
-    width: 60px;
-    height: 60px;
+    /* width: 60px;
+    height: 60px; */
+    object-fit: cover;
 }
 .card__text{
     margin: 0 0 10px 0;

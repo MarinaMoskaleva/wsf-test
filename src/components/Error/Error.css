@@ -4,8 +4,7 @@
     justify-content: flex-start;
     align-items: center;
     flex-grow: 1;
-    margin: 0 70px;
-    width: calc(100% - 140px);
+    width: 100%;
 }
 .error__title{
     margin: 0;
@@ -23,7 +22,7 @@
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
-    line-height: 19px;
+    line-height: 1.2;
     color: #000000;
     margin-bottom: 20px;
 }
@@ -45,11 +44,9 @@
     }
     .error__title{
         margin-bottom: 10px;
-        font-size: 80px;
-        line-height: 97px;
+        font-size: 50px;
     }
     .error__text{
         font-size: 12px;
-        line-height: 15px;
     }
 }

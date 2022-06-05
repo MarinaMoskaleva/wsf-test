@@ -10,16 +10,16 @@ import Preloader from '../Preloader/Preloader';
 import Error from '../Error/Error';
 
 function App() {
-  const [weatherData, setWeatherData] = useState({});
-  const [weekWeatherData, setWeekWeatherData] = useState([]);
+  const [dayWeather, setDayWeather] = useState({});
+  const [weekWeather, setWeekWeather] = useState([]);
   const [nameCity, setNameCity] = useState('');
-  const [isCurrentActive, setCurrentActive] = useState(true);
+  const [isDayPeriodActive, setDayPeriodActive] = useState(true);
   const [loading, setLoading] = useState(false);
   const [dataGet, setDataGet] = useState(false);
   const [error, setError] = useState(false);
 
-  function definePeriod(isCurActive){
-    setCurrentActive(isCurActive);
+  function definePeriod(isDayActive){
+    setDayPeriodActive(isDayActive);
   }
 
   function getWeekWeatherData(cityName, countryName, dailyArray){
@@ -46,17 +46,17 @@ function App() {
   useEffect(() => {
     if (nameCity) {
       setLoading(true);
-      Promise.all([api.getCoordByCityName(nameCity), api.getWeekWeather(nameCity)])
+      Promise.all([api.getCoordsByCityName(nameCity), api.getWeather(nameCity)])
       .then(([data, weekData])=>{
         const fullCountryName = new Intl.DisplayNames("en", {type: "region"}).of(data[0].country);
-        setWeatherData({
+        setDayWeather({
           city: data[0].name, 
           country: fullCountryName,
           icon: `${imgUrl}${weekData.daily[0].weather[0].icon}@2x.png`,
           temperature: Math.round((weekData.daily[0].temp.day - KELVIN)*10)/10,
           weather: weekData.daily[0].weather[0].main
         });
-        setWeekWeatherData(getWeekWeatherData(data[0].name, fullCountryName, weekData.daily));
+        setWeekWeather(getWeekWeatherData(data[0].name, fullCountryName, weekData.daily));
         setLoading(false);
       })
       .catch((err)=>{
@@ -68,11 +68,11 @@ function App() {
     }
   }, [nameCity]);
   useEffect(() => {
-    if (!(weekWeatherData.lenght === 0) && !(Object.keys(weatherData).length === 0)){
+    if (!(weekWeather.lenght === 0) && !(Object.keys(dayWeather).length === 0)){
       setDataGet(!loading)
     }
     
-  }, [loading, weekWeatherData, weatherData]);
+  }, [loading, weekWeather, dayWeather]);
 
   return (
     <div className="root">
@@ -80,8 +80,8 @@ function App() {
         <Navigation togglePeriod={definePeriod}/>
         {error && <Error />}
         {loading && !error && <Preloader />}
-        {isCurrentActive && dataGet && <ShowWeather weatherData={weatherData} />}
-        {!isCurrentActive && dataGet && <ShowWeekWeather weekWeatherData={weekWeatherData} />}
+        {isDayPeriodActive && dataGet && <ShowWeather weatherData={dayWeather} />}
+        {!isDayPeriodActive && dataGet && <ShowWeekWeather weekWeatherData={weekWeather} />}
     </div>
   );
 }

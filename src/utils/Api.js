@@ -13,12 +13,12 @@ class Api {
       return Promise.reject(`Ошибка: ${res.status}`);
     }
     
-    getCoordByCityName(city){
+    getCoordsByCityName(city){
       return fetch(`${this._baseUrl}/geo/1.0/direct?q=${city}&appid=${this._apiId}`)
       .then(this._getResponseData);
     }
-    getWeekWeather(city){
-      return this.getCoordByCityName(city)
+    getWeather(city){
+      return this.getCoordsByCityName(city)
       .then((data)=>{
         return fetch(`${this._baseUrl}/data/2.5/onecall?lat=${data[0].lat}&lon=${data[0].lon}&appid=${this._apiId}`).then(this._getResponseData);
       })
