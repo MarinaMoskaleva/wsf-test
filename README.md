@@ -3,7 +3,7 @@
 Тестовый проект для Web Security Fellowship. Нужно получить прогноз погоды по API https://openweathermap.org/api и отобразить информацию пользователю. В зависимости от выбора пользователя, отображается либо прогноз погоды на текущий день, либо недельный прогноз погоды.
 
 ### Страница проекта
-[Create Weather forecast app](https://marinamoskaleva.github.io/kis_test/)
+[Create Weather forecast app](https://marinamoskaleva.github.io/wsf-test/)
 
 ### Технологии
 - HTML

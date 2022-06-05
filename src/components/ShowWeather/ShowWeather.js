@@ -2,7 +2,6 @@ import React from 'react';
 import './ShowWeather.css'
 
 function ShowWeather({weatherData}) {
-    console.log('weatherData',weatherData)
     return (
         <section className="show-weather">
             <h2 className="show-weather__name">{weatherData.city}</h2>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Search from '../Search/Search';
 import api from '../../utils/Api'
-import { KELVIN } from '../../utils/constants';
+import { KELVIN, imgUrl } from '../../utils/constants';
 import ShowWeather from '../ShowWeather/ShowWeather';
 import Navigation from '../Navigation/Navigation';
 import ShowWeekWeather from '../ShowWeekWeather/ShowWeekWeather';
@@ -32,7 +32,7 @@ function App() {
       obj.city = cityName;
       obj.country = countryName;
       obj.date = `${fullDate.getFullYear()}-${fullDate.getMonth()+1 < 10 ? '0':''}${fullDate.getMonth()+1}-${fullDate.getDate() < 10 ? '0':''}${fullDate.getDate()}`;
-      obj.icon = `http://openweathermap.org/img/wn/${dailyArray[i].weather[0].icon}@2x.png`;
+      obj.icon = `${imgUrl}${dailyArray[i].weather[0].icon}@2x.png`;
       obj.temperature = Math.round(((dailyArray[i].temp.day+dailyArray[i].temp.eve+dailyArray[i].temp.morn+dailyArray[i].temp.night)*0.25 - KELVIN)*10)/10;
       obj.weather = weatherUpperCase;
       weekData.push(obj);
@@ -52,7 +52,7 @@ function App() {
         setWeatherData({
           city: data[0].name, 
           country: fullCountryName,
-          icon: `http://openweathermap.org/img/wn/${weekData.daily[0].weather[0].icon}@2x.png`,
+          icon: `${imgUrl}${weekData.daily[0].weather[0].icon}@2x.png`,
           temperature: Math.round((weekData.daily[0].temp.day - KELVIN)*10)/10,
           weather: weekData.daily[0].weather[0].main
         });
