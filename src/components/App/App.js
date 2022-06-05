@@ -71,7 +71,6 @@ function App() {
     if (!(weekWeather.lenght === 0) && !(Object.keys(dayWeather).length === 0)){
       setDataGet(!loading)
     }
-    
   }, [loading, weekWeather, dayWeather]);
 
   return (
